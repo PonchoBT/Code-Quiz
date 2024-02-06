@@ -17,4 +17,4 @@ Welcome to the Code Quiz repository! This project is an interactive quiz designe
 4. **View High Scores:** After finishing the quiz, you'll have the option to view the high scores list. Click on "View High Scores" to see how your score compares to other users.
 
 
-![MOVIE](./assets/videos/code-quiz.webm)
+![MOVIE](./assets/videos/code-quiz.gif)

@@ -6,16 +6,17 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  font-family: 'Roboto', sans-serif;
 }
 
 .container {
   width: 50%;
   border: 1px solid;
   margin: auto;
-  height: 600px;
+  height: 700px;
 }
 
-.header {
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,7 +29,11 @@ h3,
 h4,
 h5,
 h6 {
-  font-size: 100%;
+  font-size: 200%;
+}
+
+p {
+  font-size: 150%;
 }
 
 ol,
@@ -52,6 +57,7 @@ li {
   background: none;
   color: #be5fe7;
   cursor: pointer;
+  font-size: 150%;
 }
 
 main {
@@ -114,3 +120,6 @@ main {
 }
 
 
+.score_record {
+  text-align: left;
+}

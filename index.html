@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,78 @@
     <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <script src="assets/js/script.js"></script>
+
 <body>
+    <div class="container">
+        <header>
+            <div class="header">
+                <div>
+                    <button class="score_check" id="score_check">View High Scores</button>
+                </div>
+                <!--Timer-->
+                <div>
+                    <p id="timer">Time:75</p>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div>
+                <section class="intro_page" id="intro_page">
+                    <div id="introduction">
+                        <h1>
+                            Coding Quiz Challenge
+                        </h1>
+                        <p id="instruction">
+                            Try to answer the following code-related questions within the time limit. Keep in mid that
+                            incorrect answers will penalize your score/time by ten seconds!
+                        </p>
+                        <button class="start_btn" id="start_btn">Start Quiz</button>
+                    </div>
+                </section>
+                <!--questions section-->
+                <section class="question_page" id="question_page">
+                    <div>
+                        <div>
+                            <h2 id="ask_question">Ask the question</h2>
+                            <ul>
+                                <li><button class="answer_btn" id="answer_btn1" value="a">Answer1</button></li>
+                                <li><button class="answer_btn" id="answer_btn2" value="b">Answer2</button></li>
+                                <li><button class="answer_btn" id="answer_btn3" value="c">Answer3</button></li>
+                                <li><button class="answer_btn" id="answer_btn4" value="d">Answer4</button></li>
+                            </ul>
+                            <div>
+                                <!--question correct or wrong-->
+                                <hr>  </hr>
+                                <div class="correct_or_wrong_text" id="correct_or_wrong">
+                                </div>
+                </section>
+                <!--final section-->
+                <section class="submit_page" id="submit_page">
+                    <div>
+                        <h2 id="finish">All Done!</h2>
+                        <p id="final_score">Your final score is: </p>
+                        <p>Enter initials
+                            <input class="initial_ipt" id="initial">
+                            <button class="submit_btn" id="submit_btn">Submit</button>
+                        </p>
+                    </div>
+                </section>
+                <!--high score list section-->
+                <section class="highscore_page" id="highscore_page">
+                    <div>
+                        <h2>High Scores</h2>
+                        <div id="score_record">
+                        </div><br><br>
+                        <div>
+                            <button class="back_btn" id="back_btn">Go back</button>
+                            <button class="clear_btn" id="clear_btn">Clear Highscores</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="assets/js/script.js"></script>
 </body>
+
 </html>

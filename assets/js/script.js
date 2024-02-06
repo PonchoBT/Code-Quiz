@@ -87,7 +87,7 @@ var totalScore = 0;
 var questionCount = 1;
 
 
-// List of selectors for the elements you want to hide
+// // List of selectors for the elements you want to hide
 var selectors = [".question_page", ".submit_page", ".highscore_page", "#check_line"];
 
 // Iterates over each selector and hides the corresponding elements
@@ -147,14 +147,16 @@ function checkAnswer(event) {
   // Answer check
   if (questionSource[questionNumber].answer == event.target.value) {
     correctOrWrong.textContent = "Correct!";
-     // Style color green 
+     // Style color green and font Size
     correctOrWrong.style.color = "green";
+    correctOrWrong.style.fontSize = "40px";
     totalScore = totalScore;
   } else {
     secondsLeft = secondsLeft;
     correctOrWrong.textContent = "Wrong!";
-     // Style color red
+     // Style color red and font Size
     correctOrWrong.style.color = "red";
+    correctOrWrong.style.fontSize = "40px";
   }
   // THEN I am presented with another question
   if (questionNumber < questionSource.length - 1) {

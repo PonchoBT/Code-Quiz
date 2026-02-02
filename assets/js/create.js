@@ -17,8 +17,7 @@ function addDays(days) {
 }
 
 function buildShareUrl(questions) {
-  var basePath = window.location.pathname.replace(/crear\.html$/i, "index.html");
-  var baseUrl = window.location.origin + basePath;
+  var baseUrl = window.location.origin + "/";
   var encoded = encodeQuestions(questions);
   var expiresAt = addDays(2);
   return baseUrl + "?q=" + encodeURIComponent(encoded) + "&exp=" + expiresAt;

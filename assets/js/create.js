@@ -6,21 +6,24 @@ function setMessage(target, text, type) {
   target.className = "create_message " + type;
 }
 
-function encodeQuestions(questions) {
-  var json = JSON.stringify(questions);
-  return btoa(unescape(encodeURIComponent(json)));
-}
-
-function addDays(days) {
-  var now = Date.now();
-  return now + days * 24 * 60 * 60 * 1000;
-}
-
-function buildShareUrl(questions) {
+function buildShareUrlFromId(id) {
   var baseUrl = window.location.origin + "/";
-  var encoded = encodeQuestions(questions);
-  var expiresAt = addDays(2);
-  return baseUrl + "?q=" + encodeURIComponent(encoded) + "&exp=" + expiresAt;
+  return baseUrl + "?id=" + encodeURIComponent(id);
+}
+
+function getApiBaseUrl() {
+  if (window.API_BASE_URL) {
+    return window.API_BASE_URL.replace(/\/$/, "");
+  }
+  return "";
+}
+
+function buildApiUrl(path) {
+  var base = getApiBaseUrl();
+  if (!base) {
+    return "";
+  }
+  return base + path;
 }
 
 function stripPrefix(text) {
@@ -122,16 +125,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var copyShare = document.getElementById("copy_share");
 
   loadSavedQuestions();
-  try {
-    var savedQuestions = JSON.parse(localStorage.getItem("customQuestions"));
-    if (Array.isArray(savedQuestions) && savedQuestions.length === 5) {
-      if (shareInput) {
-        shareInput.value = buildShareUrl(savedQuestions);
-      }
-    }
-  } catch (error) {
-    // Ignore invalid stored data
-  }
 
   if (form) {
     form.addEventListener("submit", function (event) {
@@ -142,33 +135,59 @@ document.addEventListener("DOMContentLoaded", function () {
         applyErrorStyles();
         return;
       }
-      localStorage.setItem("customQuestions", JSON.stringify(result.questions));
-      localStorage.setItem(
-        "customQuestionsMeta",
-        JSON.stringify({ expiresAt: addDays(2) })
-      );
-      setMessage(
-        message,
-        "Preguntas guardadas. Abre el quiz para usarlas.",
-        "success"
-      );
-      if (shareBox && shareInput) {
-        shareInput.value = buildShareUrl(result.questions);
+      var apiUrl = buildApiUrl("/quiz");
+      if (!apiUrl) {
+        setMessage(
+          message,
+          "Configura la URL de la API en assets/js/api-config.js.",
+          "error"
+        );
+        return;
       }
-      if (successModal && window.bootstrap) {
-        if (successModalBody) {
-          successModalBody.textContent = "Preguntas guardadas. Abre el quiz para usarlas.";
-        }
-        var modal = window.bootstrap.Modal.getOrCreateInstance(successModal);
-        modal.show();
-      }
+      fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questions: result.questions }),
+      })
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error("Error al guardar.");
+          }
+          return response.json();
+        })
+        .then(function (data) {
+          if (!data || !data.id) {
+            throw new Error("Respuesta inválida.");
+          }
+          setMessage(
+            message,
+            "Preguntas guardadas. Abre el quiz para usarlas.",
+            "success"
+          );
+          if (shareBox && shareInput) {
+            shareInput.value = buildShareUrlFromId(data.id);
+          }
+          if (successModal && window.bootstrap) {
+            if (successModalBody) {
+              successModalBody.textContent =
+                "Preguntas guardadas. Abre el quiz para usarlas.";
+            }
+            var modal = window.bootstrap.Modal.getOrCreateInstance(successModal);
+            modal.show();
+          }
+        })
+        .catch(function () {
+          setMessage(
+            message,
+            "No se pudo guardar. Intenta de nuevo.",
+            "error"
+          );
+        });
     });
   }
 
   if (resetBtn) {
     resetBtn.addEventListener("click", function () {
-      localStorage.removeItem("customQuestions");
-      localStorage.removeItem("customQuestionsMeta");
       setMessage(
         message,
         "Listo. El quiz usará las preguntas originales.",

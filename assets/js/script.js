@@ -96,6 +96,49 @@ function loadQuestionsFromUrl() {
   return false;
 }
 
+function getApiBaseUrl() {
+  if (window.API_BASE_URL) {
+    return window.API_BASE_URL.replace(/\/$/, "");
+  }
+  return "";
+}
+
+function loadQuestionsFromApi(id, callback) {
+  var base = getApiBaseUrl();
+  if (!base) {
+    callback(false);
+    return;
+  }
+  fetch(base + "/quiz/" + encodeURIComponent(id), { cache: "no-store" })
+    .then(function (response) {
+      if (response.status === 410 || response.status === 404) {
+        if (expiredNotice) {
+          expiredNotice.classList.add("is-visible");
+        }
+        return null;
+      }
+      if (!response.ok) {
+        return null;
+      }
+      return response.json();
+    })
+    .then(function (data) {
+      if (!data || !Array.isArray(data.questions)) {
+        callback(false);
+        return;
+      }
+      if (data.questions.length === 5 && data.questions.every(isValidQuestion)) {
+        questionSource = data.questions;
+        callback(true);
+        return;
+      }
+      callback(false);
+    })
+    .catch(function () {
+      callback(false);
+    });
+}
+
 function loadCustomQuestions() {
   try {
     var meta = JSON.parse(localStorage.getItem("customQuestionsMeta"));
@@ -116,7 +159,14 @@ function loadCustomQuestions() {
   }
 }
 
-if (!loadQuestionsFromUrl()) {
+var idParam = new URLSearchParams(window.location.search).get("id");
+if (idParam) {
+  loadQuestionsFromApi(idParam, function (loaded) {
+    if (!loaded && !loadQuestionsFromUrl()) {
+      loadCustomQuestions();
+    }
+  });
+} else if (!loadQuestionsFromUrl()) {
   loadCustomQuestions();
 }
 

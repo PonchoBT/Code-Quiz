@@ -18,9 +18,12 @@
 <body class="deaftech-ui">
     <div class="container py-4">
         <header class="d-flex align-items-center justify-content-between mb-4">
-            <button class="score_check btn btn-outline-primary" id="score_check">
-                <i class="bi bi-trophy-fill me-2"></i>Ver puntajes altos
-            </button>
+            <div class="d-flex flex-wrap gap-2">
+                <button class="score_check btn btn-outline-primary" id="score_check">
+                    <i class="bi bi-trophy-fill me-2"></i>Ver puntajes altos
+                </button>
+               
+            </div>
             <div class="bg-white border rounded-pill px-3 py-1 shadow-sm">
                 <p class="m-0 fw-semibold" id="timer"><i class="bi bi-clock me-2"></i>Tiempo:75</p>
             </div>
@@ -36,6 +39,9 @@
                             <p class="text-muted mb-4" id="instruction">
                                 Responde las preguntas antes de que se acabe el tiempo. Cada error resta 10 segundos.
                             </p>
+                            <div class="expired_notice" id="expired_notice">
+                                Este link expiró. Crea un nuevo enlace en “Crear preguntas”.
+                            </div>
                             <button class="start_btn btn btn-primary btn-lg" id="start_btn">
                                 <i class="bi bi-play-fill me-2"></i>Iniciar cuestionario
                             </button>
@@ -54,6 +60,8 @@
                                         value="c">Respuesta 3</button></li>
                                 <li><button class="answer_btn btn btn-outline-secondary w-100 text-start" id="answer_btn4"
                                         value="d">Respuesta 4</button></li>
+                                <li><button class="answer_btn btn btn-outline-secondary w-100 text-start" id="answer_btn5"
+                                        value="e">Respuesta 5</button></li>
                             </ul>
                             <!--question correct or wrong-->
                             <hr class="my-3">
@@ -71,6 +79,7 @@
                                         <i class="bi bi-pencil-square me-2"></i>Ingresa tus iniciales
                                     </label>
                                     <input class="initial_ipt form-control" id="initial" aria-label="Iniciales">
+                                    <div class="initial_error" id="initial_error"></div>
                                 </div>
                                 <div class="col-12 text-center">
                                     <button class="submit_btn btn btn-success" id="submit_btn">
@@ -98,6 +107,22 @@
                 </div>
             </div>
         </main>
+    </div>
+    <div class="modal fade" id="initial_modal" tabindex="-1" aria-labelledby="initial_modal_label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="initial_modal_label">Faltan iniciales</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="initial_modal_body">
+                    Ingresa tus iniciales antes de enviar.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="assets/js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

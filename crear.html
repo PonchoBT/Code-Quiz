@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear preguntas | Code Quiz</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Nunito:wght@400;700&family=Roboto:wght@100&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="deaftech-ui">
+    <div class="container py-4">
+        <header class="d-flex align-items-center justify-content-between mb-4">
+            <a class="back_btn btn btn-outline-secondary" href="index.html">
+                <i class="bi bi-arrow-left me-2"></i>Volver al quiz
+            </a>
+            <div class="create_title">
+                <i class="bi bi-pencil-square me-2"></i>Crear preguntas
+            </div>
+        </header>
+        <main>
+            <section class="create_page mb-4">
+                <h1 class="h3 fw-semibold mb-2">Crea 5 preguntas para tu quiz</h1>
+                <p class="text-muted mb-4">
+                    Completa cada pregunta con 5 respuestas y selecciona la correcta. Al guardar, el quiz usará estas
+                    preguntas.
+                </p>
+                <p class="create_message" id="create_message"></p>
+                <div class="share_box" id="share_box">
+                    <div class="share_label">
+                        <i class="bi bi-share-fill me-2"></i>Compartir link para jugar
+                    </div>
+                    <div class="share_actions">
+                        <input class="form-control share_input" id="share_input" readonly
+                            placeholder="Aquí aparecerá el link para compartir">
+                        <button class="btn btn-outline-primary" id="copy_share" type="button">
+                            <i class="bi bi-clipboard me-2"></i>Copiar
+                        </button>
+                    </div>
+                    <div class="share_hint">Comparte este link con los niños para que jueguen.</div>
+                </div>
+                <form id="create_form">
+                    <div class="question-builder" data-index="1">
+                        <h3 class="h5 fw-semibold mb-3">Pregunta 1</h3>
+                        <label class="form-label" for="question_1">Pregunta</label>
+                        <input class="form-control question-input" id="question_1" placeholder="Escribe la pregunta">
+                        <div class="answer-grid mt-3">
+                            <div>
+                                <label class="form-label" for="q1_a">Respuesta A</label>
+                                <input class="form-control answer-input" id="q1_a" data-option="a"
+                                    placeholder="Respuesta A">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q1_b">Respuesta B</label>
+                                <input class="form-control answer-input" id="q1_b" data-option="b"
+                                    placeholder="Respuesta B">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q1_c">Respuesta C</label>
+                                <input class="form-control answer-input" id="q1_c" data-option="c"
+                                    placeholder="Respuesta C">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q1_d">Respuesta D</label>
+                                <input class="form-control answer-input" id="q1_d" data-option="d"
+                                    placeholder="Respuesta D">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q1_e">Respuesta E</label>
+                                <input class="form-control answer-input" id="q1_e" data-option="e"
+                                    placeholder="Respuesta E">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label" for="q1_correct">Respuesta correcta</label>
+                            <select class="form-select correct-select" id="q1_correct">
+                                <option value="">Selecciona...</option>
+                                <option value="a">A</option>
+                                <option value="b">B</option>
+                                <option value="c">C</option>
+                                <option value="d">D</option>
+                                <option value="e">E</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="question-builder" data-index="2">
+                        <h3 class="h5 fw-semibold mb-3">Pregunta 2</h3>
+                        <label class="form-label" for="question_2">Pregunta</label>
+                        <input class="form-control question-input" id="question_2" placeholder="Escribe la pregunta">
+                        <div class="answer-grid mt-3">
+                            <div>
+                                <label class="form-label" for="q2_a">Respuesta A</label>
+                                <input class="form-control answer-input" id="q2_a" data-option="a"
+                                    placeholder="Respuesta A">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q2_b">Respuesta B</label>
+                                <input class="form-control answer-input" id="q2_b" data-option="b"
+                                    placeholder="Respuesta B">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q2_c">Respuesta C</label>
+                                <input class="form-control answer-input" id="q2_c" data-option="c"
+                                    placeholder="Respuesta C">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q2_d">Respuesta D</label>
+                                <input class="form-control answer-input" id="q2_d" data-option="d"
+                                    placeholder="Respuesta D">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q2_e">Respuesta E</label>
+                                <input class="form-control answer-input" id="q2_e" data-option="e"
+                                    placeholder="Respuesta E">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label" for="q2_correct">Respuesta correcta</label>
+                            <select class="form-select correct-select" id="q2_correct">
+                                <option value="">Selecciona...</option>
+                                <option value="a">A</option>
+                                <option value="b">B</option>
+                                <option value="c">C</option>
+                                <option value="d">D</option>
+                                <option value="e">E</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="question-builder" data-index="3">
+                        <h3 class="h5 fw-semibold mb-3">Pregunta 3</h3>
+                        <label class="form-label" for="question_3">Pregunta</label>
+                        <input class="form-control question-input" id="question_3" placeholder="Escribe la pregunta">
+                        <div class="answer-grid mt-3">
+                            <div>
+                                <label class="form-label" for="q3_a">Respuesta A</label>
+                                <input class="form-control answer-input" id="q3_a" data-option="a"
+                                    placeholder="Respuesta A">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q3_b">Respuesta B</label>
+                                <input class="form-control answer-input" id="q3_b" data-option="b"
+                                    placeholder="Respuesta B">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q3_c">Respuesta C</label>
+                                <input class="form-control answer-input" id="q3_c" data-option="c"
+                                    placeholder="Respuesta C">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q3_d">Respuesta D</label>
+                                <input class="form-control answer-input" id="q3_d" data-option="d"
+                                    placeholder="Respuesta D">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q3_e">Respuesta E</label>
+                                <input class="form-control answer-input" id="q3_e" data-option="e"
+                                    placeholder="Respuesta E">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label" for="q3_correct">Respuesta correcta</label>
+                            <select class="form-select correct-select" id="q3_correct">
+                                <option value="">Selecciona...</option>
+                                <option value="a">A</option>
+                                <option value="b">B</option>
+                                <option value="c">C</option>
+                                <option value="d">D</option>
+                                <option value="e">E</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="question-builder" data-index="4">
+                        <h3 class="h5 fw-semibold mb-3">Pregunta 4</h3>
+                        <label class="form-label" for="question_4">Pregunta</label>
+                        <input class="form-control question-input" id="question_4" placeholder="Escribe la pregunta">
+                        <div class="answer-grid mt-3">
+                            <div>
+                                <label class="form-label" for="q4_a">Respuesta A</label>
+                                <input class="form-control answer-input" id="q4_a" data-option="a"
+                                    placeholder="Respuesta A">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q4_b">Respuesta B</label>
+                                <input class="form-control answer-input" id="q4_b" data-option="b"
+                                    placeholder="Respuesta B">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q4_c">Respuesta C</label>
+                                <input class="form-control answer-input" id="q4_c" data-option="c"
+                                    placeholder="Respuesta C">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q4_d">Respuesta D</label>
+                                <input class="form-control answer-input" id="q4_d" data-option="d"
+                                    placeholder="Respuesta D">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q4_e">Respuesta E</label>
+                                <input class="form-control answer-input" id="q4_e" data-option="e"
+                                    placeholder="Respuesta E">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label" for="q4_correct">Respuesta correcta</label>
+                            <select class="form-select correct-select" id="q4_correct">
+                                <option value="">Selecciona...</option>
+                                <option value="a">A</option>
+                                <option value="b">B</option>
+                                <option value="c">C</option>
+                                <option value="d">D</option>
+                                <option value="e">E</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="question-builder" data-index="5">
+                        <h3 class="h5 fw-semibold mb-3">Pregunta 5</h3>
+                        <label class="form-label" for="question_5">Pregunta</label>
+                        <input class="form-control question-input" id="question_5" placeholder="Escribe la pregunta">
+                        <div class="answer-grid mt-3">
+                            <div>
+                                <label class="form-label" for="q5_a">Respuesta A</label>
+                                <input class="form-control answer-input" id="q5_a" data-option="a"
+                                    placeholder="Respuesta A">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q5_b">Respuesta B</label>
+                                <input class="form-control answer-input" id="q5_b" data-option="b"
+                                    placeholder="Respuesta B">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q5_c">Respuesta C</label>
+                                <input class="form-control answer-input" id="q5_c" data-option="c"
+                                    placeholder="Respuesta C">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q5_d">Respuesta D</label>
+                                <input class="form-control answer-input" id="q5_d" data-option="d"
+                                    placeholder="Respuesta D">
+                            </div>
+                            <div>
+                                <label class="form-label" for="q5_e">Respuesta E</label>
+                                <input class="form-control answer-input" id="q5_e" data-option="e"
+                                    placeholder="Respuesta E">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label" for="q5_correct">Respuesta correcta</label>
+                            <select class="form-select correct-select" id="q5_correct">
+                                <option value="">Selecciona...</option>
+                                <option value="a">A</option>
+                                <option value="b">B</option>
+                                <option value="c">C</option>
+                                <option value="d">D</option>
+                                <option value="e">E</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="create_actions d-flex flex-wrap gap-2 justify-content-center mt-4">
+                        <button class="submit_btn btn btn-success" id="save_questions" type="submit">
+                            <i class="bi bi-save me-2"></i>Guardar preguntas
+                        </button>
+                        <button class="back_btn btn btn-outline-secondary" id="reset_questions" type="button">
+                            <i class="bi bi-arrow-counterclockwise me-2"></i>Usar preguntas por defecto
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+    <div class="modal fade" id="create_success_modal" tabindex="-1" aria-labelledby="create_success_modal_label"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="create_success_modal_label">¡Listo!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="create_success_modal_body">
+                    Preguntas guardadas. Abre el quiz para usarlas.
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-primary" href="index.html">Ir al quiz</a>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Seguir aquí</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="assets/js/create.js"></script>
+</body>
+
+</html>

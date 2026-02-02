@@ -8,6 +8,7 @@ var questionSource = [
       "b. Lenguaje de marcado de hipertexto",
       "c. Enlazando hipertexto de marcado",
       "d. Lenguaje de marcado de hipertexto y Markdown",
+      "e. Lenguaje de programación de hipertexto",
     ],
     answer: "b", // correct
   },
@@ -19,13 +20,14 @@ var questionSource = [
       "b. color",
       "c. background-color",
       "d. background-image",
+      "e. background",
     ],
     answer: "c",
   },
   {
     question:
       'Pregunta JavaScript 3: ¿Qué mostrará en la consola el siguiente código? console.log(typeof "Hello, world!");',
-    answer_btn: ["a. string", "b. text", "c. object", "d. undefined"],
+    answer_btn: ["a. string", "b. text", "c. object", "d. undefined", "e. boolean"],
     answer: "a",
   },
   {
@@ -36,6 +38,7 @@ var questionSource = [
       "b. <p style='background-color: #FFFFFF;'>",
       "c. <p bgcolor='#FFFFFF'>",
       "d. p.backgroundColor = '#FFFFFF';",
+      "e. p set background-color #FFFFFF;",
     ],
     answer: "a",
   },
@@ -47,10 +50,75 @@ var questionSource = [
       "b. <script href='app.js'>",
       "c. <script link='app.js'>",
       "d. <script name='app.js'>",
+      "e. <script file='app.js'>",
     ],
     answer: "a",
   },
 ];
+
+function isValidQuestion(item) {
+  return (
+    item &&
+    typeof item.question === "string" &&
+    Array.isArray(item.answer_btn) &&
+    item.answer_btn.length === 5 &&
+    typeof item.answer === "string"
+  );
+}
+
+function loadQuestionsFromUrl() {
+  var params = new URLSearchParams(window.location.search);
+  var encoded = params.get("q");
+  var expParam = params.get("exp");
+  if (!encoded) {
+    return false;
+  }
+  try {
+    if (expParam) {
+      var exp = parseInt(expParam, 10);
+      if (!Number.isNaN(exp) && Date.now() > exp) {
+        if (expiredNotice) {
+          expiredNotice.classList.add("is-visible");
+        }
+        return false;
+      }
+    }
+    var json = decodeURIComponent(encoded);
+    var decoded = decodeURIComponent(escape(atob(json)));
+    var parsed = JSON.parse(decoded);
+    if (Array.isArray(parsed) && parsed.length === 5 && parsed.every(isValidQuestion)) {
+      questionSource = parsed;
+      return true;
+    }
+  } catch (error) {
+    return false;
+  }
+  return false;
+}
+
+function loadCustomQuestions() {
+  try {
+    var meta = JSON.parse(localStorage.getItem("customQuestionsMeta"));
+    if (meta && meta.expiresAt && Date.now() > meta.expiresAt) {
+      localStorage.removeItem("customQuestions");
+      localStorage.removeItem("customQuestionsMeta");
+      return;
+    }
+    var stored = JSON.parse(localStorage.getItem("customQuestions"));
+    if (Array.isArray(stored) && stored.length === 5) {
+      var valid = stored.every(isValidQuestion);
+      if (valid) {
+        questionSource = stored;
+      }
+    }
+  } catch (error) {
+    // Ignore invalid stored data
+  }
+}
+
+if (!loadQuestionsFromUrl()) {
+  loadCustomQuestions();
+}
 
 // Assignment Code to each section
 var startBtn = document.querySelector("#start_btn");
@@ -64,11 +132,16 @@ var answerBtn1 = document.querySelector("#answer_btn1");
 var answerBtn2 = document.querySelector("#answer_btn2");
 var answerBtn3 = document.querySelector("#answer_btn3");
 var answerBtn4 = document.querySelector("#answer_btn4");
+var answerBtn5 = document.querySelector("#answer_btn5");
 
 var correctOrWrong = document.querySelector("#correct_or_wrong");
 var scoreBoard = document.querySelector("#submit_page");
 var finalScore = document.querySelector("#final_score");
 var userInitial = document.querySelector("#initial");
+var initialError = document.querySelector("#initial_error");
+var initialModal = document.querySelector("#initial_modal");
+var initialModalBody = document.querySelector("#initial_modal_body");
+var expiredNotice = document.querySelector("#expired_notice");
 
 var submitBtn = document.querySelector("#submit_btn");
 var highScorePage = document.querySelector("#highscore_page");
@@ -135,6 +208,7 @@ function showQuestion(n) {
   answerBtn2.textContent = questionSource[n].answer_btn[1];
   answerBtn3.textContent = questionSource[n].answer_btn[2];
   answerBtn4.textContent = questionSource[n].answer_btn[3];
+  answerBtn5.textContent = questionSource[n].answer_btn[4];
   questionNumber = n;
 }
 
@@ -261,6 +335,22 @@ answerBtns.forEach(function (click) {
 //save information and go to next page
 submitBtn.addEventListener("click", function (event) {
   event.preventDefault();
+  if (initialError) {
+    initialError.textContent = "";
+  }
+  if (!userInitial.value || !userInitial.value.trim()) {
+    if (initialError) {
+      initialError.textContent = "Ingresa tus iniciales antes de enviar.";
+    }
+    if (initialModal && window.bootstrap) {
+      if (initialModalBody) {
+        initialModalBody.textContent = "Ingresa tus iniciales antes de enviar.";
+      }
+      var modal = window.bootstrap.Modal.getOrCreateInstance(initialModal);
+      modal.show();
+    }
+    return;
+  }
   scoreBoard.style.display = "none";
   introPage.style.display = "none";
   highScorePage.style.display = "block";

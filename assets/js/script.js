@@ -2,18 +2,18 @@
 var questionSource = [
   {
     // Question about HTML
-    question: "Question HTML 1: What does HTML stand for?",
+    question: "Pregunta HTML 1: ¿Qué significa HTML?",
     answer_btn: [
-      "a. Hyperlinks and Text Markup Language",
-      "b. Hyper Text Markup Language",
-      "c. Hyperlinking Text Marking Language",
-      "d. Hyper Text Markdown Language",
+      "a. Hipervínculos y lenguaje de marcado de texto",
+      "b. Lenguaje de marcado de hipertexto",
+      "c. Enlazando hipertexto de marcado",
+      "d. Lenguaje de marcado de hipertexto y Markdown",
     ],
     answer: "b", // correct
   },
   {
     question:
-      "Question CSS 1: Which property is used to change the background color of an element?",
+      "Pregunta CSS 1: ¿Qué propiedad se usa para cambiar el color de fondo de un elemento?",
     answer_btn: [
       "a. bgcolor",
       "b. color",
@@ -24,13 +24,13 @@ var questionSource = [
   },
   {
     question:
-      'Questions JavaScript 3 : What will the following code output to the console? console.log(typeof "Hello, world!");',
+      'Pregunta JavaScript 3: ¿Qué mostrará en la consola el siguiente código? console.log(typeof "Hello, world!");',
     answer_btn: ["a. string", "b. text", "c. object", "d. undefined"],
     answer: "a",
   },
   {
     question:
-      "Questions HTML + CSS 4 : Which option is the correct way to add a background color to all <p> elements using an external CSS file?",
+      "Pregunta HTML + CSS 4: ¿Cuál opción es la forma correcta de agregar un color de fondo a todos los <p> usando un CSS externo?",
     answer_btn: [
       "a. p {background-color: #FFFFFF;}",
       "b. <p style='background-color: #FFFFFF;'>",
@@ -41,7 +41,7 @@ var questionSource = [
   },
   {
     question:
-      "Questions JavaScript 5 : What is the correct syntax for referring to an external script called 'app.js'?",
+      "Pregunta JavaScript 5: ¿Cuál es la sintaxis correcta para referirse a un script externo llamado 'app.js'?",
     answer_btn: [
       "a. <script src='app.js'>",
       "b. <script href='app.js'>",
@@ -102,13 +102,13 @@ selectors.forEach(function(selector) {
 function countdown() {
   var timerInterval = setInterval(function () {
     secondsLeft--;
-    timeLeft.textContent = "Time: " + secondsLeft;
+    timeLeft.textContent = "Tiempo: " + secondsLeft;
 
     if (secondsLeft <= 0) {
       clearInterval(timerInterval);
-      timeLeft.textContent = "Time is up!";
+      timeLeft.textContent = "¡Tiempo terminado!";
       // if time is up, show on score board content instead of "all done!"
-      finish.textContent = "Time is up!";
+      finish.textContent = "¡Tiempo terminado!";
       gameOver();
     } else if (questionCount >= questionSource.length + 1) {
       clearInterval(timerInterval);
@@ -122,6 +122,9 @@ function startQuiz() {
   introPage.style.display = "none";
   questionPage.style.display = "block";
   questionNumber = 0;
+  questionCount = 1;
+  totalScore = 0;
+  secondsLeft = 75;
   countdown();
   showQuestion(questionNumber);
 }
@@ -145,17 +148,16 @@ function checkAnswer(event) {
   }, 1000);
 
   // Answer check
+  correctOrWrong.classList.remove("is-correct", "is-wrong");
   if (questionSource[questionNumber].answer == event.target.value) {
-    correctOrWrong.textContent = "Correct!";
-     // Style color green and font Size
-    correctOrWrong.style.color = "green";
+    correctOrWrong.textContent = "✅ ¡Correcto!";
+    correctOrWrong.classList.add("is-correct");
     correctOrWrong.style.fontSize = "40px";
-    totalScore = totalScore;
+    totalScore++;
   } else {
     secondsLeft = secondsLeft;
-    correctOrWrong.textContent = "Wrong!";
-     // Style color red and font Size
-    correctOrWrong.style.color = "red";
+    correctOrWrong.textContent = "❌ ¡Incorrecto!";
+    correctOrWrong.classList.add("is-wrong");
     correctOrWrong.style.fontSize = "40px";
   }
   // THEN I am presented with another question
@@ -173,7 +175,14 @@ function gameOver() {
   scoreBoard.style.display = "block";
   console.log(scoreBoard);
   // Show final score
-  finalScore.textContent = "Your final score is :" + secondsLeft;
+  finalScore.textContent =
+    "Tu puntaje final es: " +
+    totalScore +
+    "/" +
+    questionSource.length +
+    " correctas | Tiempo: " +
+    secondsLeft +
+    " s";
   // ClearInterval(timerInterval);
   timeLeft.style.display = "none";
 }
@@ -200,7 +209,16 @@ function renderScore() {
       var item = topFive[i];
       // Shows the score list on the board
       var li = document.createElement("li");
-      li.textContent = item.user + " - " + item.score;
+      var correctCount = item.correct !== undefined ? item.correct : 0;
+      li.textContent =
+        item.user +
+        " - " +
+        correctCount +
+        "/" +
+        questionSource.length +
+        " correctas - " +
+        item.score +
+        " s";
       li.setAttribute("data-index", i);
       scoreRecord.appendChild(li);
     }
@@ -218,7 +236,8 @@ function renderScore() {
         // Assume this is a user-entered value
       user: userInitial.value,
       // Assume this is the time remaining or a specific score
-      score: secondsLeft, 
+      score: secondsLeft,
+      correct: totalScore,
     };
     addItem(scoreItem);
     renderScore();
